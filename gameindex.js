@@ -3,11 +3,10 @@ let initialSetUp=[];
 
 const rows=5;
 const columns=5;
-const length=5;
-let toCheck=12; //Change to check a single pixel
 
 
-initialSetUp=[1, 0, 0, 0, 0,
+//Setting an initial array
+initialSetUp=[0, 0, 0, 0, 0,
      0, 0, 1, 0, 0, 
      0, 0, 1, 0, 0, 
      0, 0, 1, 0, 0, 
@@ -72,20 +71,43 @@ function countfamily(arr_i, i) //takes the array and it's index 2 count living n
 
 }
 
-/* //FUNCTION TO COUNT NEIGHBOUR READY
-for(let i=0; i<currentGen.length; i++){
+function LifeTurn(arr)
+{
+let currentGen=arr;
+let nextGen=new Array(25).fill(0); //Setting a array of zeros
+console.log(nextGen);
 
-    //We have to count alive neighbors
-    if(currentGen[i]==1) //if alive
+for(let i=0; i<currentGen.length; i++) //Checking every cell in the moodle order (i)
+{
+    let neighbours=countfamily(currentGen, i); //Getting number of neighbours for this cell
+    if(currentGen[i]==1) //Any live cell (1-3)...
     {
-        count++;
-    }
-}*/
+        if(neighbours<2) //1.- with fewer than two live neighbours dies, by underpopulation
+        {
+            nextGen[i]=0; //dies
+        }
 
-console.log(count);
-return currentGen;
+        else if(neighbours==2 || neighbours==3) //2.- with two or three live neighbours lives on to the next generation.
+        {
+            nextGen[i]=1; //lives
+        }
+
+        else if(neighbours>3)//3.- with more than three live neighbours dies, as if by overpopulation.
+        {
+            nextGen[i=0]; //Dies
+        }
+    }
+
+    else if(currentGen[i]==0 && neighbours==3) //4.- any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+    {
+        nextGen[i]=1; //Become alive
+    }
+
+}
+return nextGen;
 }
 
-//console.log(LifeTurn(initialSetUp));
+console.log(LifeTurn(initialSetUp));
 
-console.log(countfamily(initialSetUp, toCheck));
+
+//console.log(countfamily(initialSetUp, toCheck));
