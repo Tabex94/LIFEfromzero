@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body{
+    height: 100%;
+}
+
+body{
+    background-color: rgb(19, 83, 11);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.navbar, .container{
+    background-color: black;
+    width: 800px;
+    border-radius: 3px;
+}
+
+.navbar{
+    padding: 1em;
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn, input{
+    height: 35px;
+    padding: 0 1em;
+}
+
+
+.number{
+    padding-right: 1em;
+}
+
+.container{
+    --size:4; /*a variable in css! to set rows and columns (or is a pointer?)*/
+    height: 800px;
+    display: grid;
+    grid-template-columns: repeat(var(--size), 1fr);
+    grid-template-rows: repeat(var(--size), 1fr);
+    gap: 3px;
+    padding: 3px;
+}
+
+.pixel{
+    background-color: rgb(52, 42, 42);
+    border-radius: 2px;
+}
+
+.textlog {
+    background-color: #ffffff;
+    border-radius: 5%;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-shadow: #232321;
+    font-size: large;
+}
+
+.datalog {
+    background-color: #008805;
+    border-radius: 5%;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-shadow: #232321;
+    font-size: large;
+    color: black;
+}
