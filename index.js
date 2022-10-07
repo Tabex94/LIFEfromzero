@@ -316,10 +316,11 @@ sizeEl.addEventListener('keyup', function(){
 sizeEl.addEventListener('change', function(){
     
     size=sizeEl.value;
-    lastsize=parseInt(sizeEl.value);
-    reset(); //FOR UI!
-    resetLife(); //FOR GAME LOGIC!
-    displaydatalog(size);
+    lastsize=parseInt(sizeEl.value); 
+    columns=lastsize;
+    reset();
+    resetLife();
+       
 
 })
 
