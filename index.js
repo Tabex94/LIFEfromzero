@@ -10,15 +10,17 @@ const resetBtn = document.querySelector('.btn');
 const stepBtn = document.querySelector('.btnStp');
 const textLog = document.querySelector('.textlog');
 const dataLog = document.querySelector('.datalog');
-
+let rows=parseInt(sizeEl.value);
+let columns=parseInt(sizeEl.value);
+let lastsize=5;
 //------GameLogic GLOBAL CONSTANTS
 
 let initialSetUp=[];
 //let nextSetUp=[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0,  0, 0, 0, 0, 0]; //NEXT GEN IS INSIDE GAME LOGIC AS LOCAL VARIABLE, ERASE LATER
-let rows=5;
-let columns=5;
-initialSetUp=new Array(columns*rows).fill(0);
 
+initialSetUp=new Array(size*size).fill(0);
+console.log(initialSetUp);
+console.log(size);
 
 //Functions to display info
 function displaylog(info)
@@ -40,6 +42,7 @@ function displaydatalog(info)
 
 function countfamily(arr_k, k) //takes the array and it's index 2 count living neigboorhood
 {
+
     let famcount=0;
     for(let j=0; j<arr_k.length; j++){
         //Searching every liv cll that'ts not the central
@@ -96,6 +99,7 @@ function countfamily(arr_k, k) //takes the array and it's index 2 count living n
 
 function LifeTurn(arr) //returns the next gen
 {
+columns=lastsize;
 let currentGen=arr;
 let nextGen=new Array(rows*columns).fill(0); //Setting a array of zeros
 //console.log(nextGen);
@@ -247,6 +251,7 @@ function nextset(err){
 }
 
 
+
 //------------------UI LOGIC-------------------------------------------------// 
  
 
@@ -277,11 +282,9 @@ stepBtn.addEventListener('click', function(){
     displaydatalog(buffer);
     nextset(); //FOR UI!
     initialSetUp=[];
-    initialSetUp=new Array(columns*rows).fill(0);
+    initialSetUp=new Array(size).fill(0);
     initialSetUp=buffer;
 })
-
-
 
 
 /*
@@ -295,13 +298,12 @@ sizeEl.addEventListener('keyup', function(){
 })*/
 
 sizeEl.addEventListener('change', function(){
+    
     size=sizeEl.value;
-    rows=size;
-    columns=size;
     reset();
     resetLife();
+    displaydatalog(size);
+    lastsize=parseInt(sizeEl.value);
 })
 
-
 populate(size);
-
