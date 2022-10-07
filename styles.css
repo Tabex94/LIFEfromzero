@@ -46,9 +46,7 @@ body{
 }
 
 
-.number{
-    padding-right: 1em;
-}
+
 
 .container{
     --size:4; /*a variable in css! to set rows and columns (or is a pointer?)*/
@@ -97,4 +95,26 @@ body{
 
 steps{
     margin: auto;
+}
+
+.sizecount{
+    background-color: rgb(205, 255, 218);
+    color: rgb(18, 18, 19);
+    height: 33px;
+    width: 70px;
+    display: flex;
+    border-radius: 2px;
+}
+
+sizes{
+    margin: auto;
+}
+
+input{
+    width: 280px;
+}
+
+header{
+    padding-bottom: 40px;
+    font-size: xx-large;
 }

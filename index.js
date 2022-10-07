@@ -11,6 +11,7 @@ const stepBtn = document.querySelector('.btnStp');
 const textLog = document.querySelector('.textlog');
 const dataLog = document.querySelector('.datalog');
 const stepcount = document.querySelector('steps');
+const sizecount = document.querySelector('sizes');
 let rows=parseInt(sizeEl.value);
 let columns=parseInt(sizeEl.value);
 let lastsize=5;
@@ -24,7 +25,7 @@ initialSetUp=new Array(size*size).fill(0);
 console.log(initialSetUp);
 console.log(size);
 
-//Functions to display info
+//-----Functions to display info-----
 function displaylog(info)
 {
     textLog.textContent=info;
@@ -40,6 +41,10 @@ function displaysteps(info)
     stepcount.textContent=info;
 }
 
+function displaysize(info)
+{
+    sizecount.textContent=info;
+}
 /*-----------------------GAME LOGIC-----------------*/
 /*-----------------------GAME LOGIC-----------------*/
 
@@ -253,6 +258,7 @@ function reset(){
     populate(size);
     GenCount=0;
     displaysteps(GenCount);
+    displaysize(size);
 }
 
 function nextset(err){
@@ -298,6 +304,7 @@ stepBtn.addEventListener('click', function(){
     initialSetUp=buffer;
     GenCount++;
     displaysteps(GenCount);
+    displaysize(size);
 })
 
 
@@ -306,23 +313,36 @@ stepBtn.addEventListener('click', function(){
 /*
 sizeEl.addEventListener('keyup', function(){
     size=sizeEl.value;
-    rows=size;
-    columns=size;
+    lastsize=parseInt(sizeEl.value); 
+    columns=lastsize;
     reset();
     resetLife();
+    displaysize(size);
 
 })*/
 
 sizeEl.addEventListener('change', function(){
     
     size=sizeEl.value;
+    displaysize(size);
     lastsize=parseInt(sizeEl.value); 
     columns=lastsize;
     reset();
-    resetLife();
+    resetLife();;
        
 
 })
 
+sizeEl.addEventListener('mousedown', function(){
+    size=sizeEl.value;
+    displaysize(size);
+    lastsize=parseInt(sizeEl.value); 
+    columns=lastsize;
+    reset();
+    resetLife();
+    
+})
+
 
 populate(size);
+
