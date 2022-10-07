@@ -85,3 +85,16 @@ body{
     font-size: large;
     color: black;
 }
+
+.stepcount{
+    background-color: rgb(205, 255, 218);
+    color: rgb(18, 18, 19);
+    height: 33px;
+    width: 70px;
+    display: flex;
+    border-radius: 2px;
+}
+
+steps{
+    margin: auto;
+}

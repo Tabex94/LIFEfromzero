@@ -10,15 +10,19 @@ const resetBtn = document.querySelector('.btn');
 const stepBtn = document.querySelector('.btnStp');
 const textLog = document.querySelector('.textlog');
 const dataLog = document.querySelector('.datalog');
-
+const stepcount = document.querySelector('steps');
+let rows=parseInt(sizeEl.value);
+let columns=parseInt(sizeEl.value);
+let lastsize=5;
+let GenCount=0;
 //------GameLogic GLOBAL CONSTANTS
 
 let initialSetUp=[];
 //let nextSetUp=[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0,  0, 0, 0, 0, 0]; //NEXT GEN IS INSIDE GAME LOGIC AS LOCAL VARIABLE, ERASE LATER
-let rows=5;
-let columns=5;
-initialSetUp=new Array(columns*rows).fill(0);
 
+initialSetUp=new Array(size*size).fill(0);
+console.log(initialSetUp);
+console.log(size);
 
 //Functions to display info
 function displaylog(info)
@@ -31,6 +35,11 @@ function displaydatalog(info)
     dataLog.textContent=info;
 }
 
+function displaysteps(info)
+{
+    stepcount.textContent=info;
+}
+
 /*-----------------------GAME LOGIC-----------------*/
 /*-----------------------GAME LOGIC-----------------*/
 
@@ -40,6 +49,8 @@ function displaydatalog(info)
 
 function countfamily(arr_k, k) //takes the array and it's index 2 count living neigboorhood
 {
+    columns=lastsize;
+
     let famcount=0;
     for(let j=0; j<arr_k.length; j++){
         //Searching every liv cll that'ts not the central
@@ -55,7 +66,7 @@ function countfamily(arr_k, k) //takes the array and it's index 2 count living n
                 famcount++;
             }
 
-            else if(j==k-columns+1) //third
+            else if(j==k+1-columns) //third
             {
                 famcount++;
             }
@@ -70,7 +81,7 @@ function countfamily(arr_k, k) //takes the array and it's index 2 count living n
                 famcount++;
             }
 
-            else if(j==k+columns-1) //sixth
+            else if(j==k-1+columns) //sixth
             {
                 famcount++;
             }
@@ -80,7 +91,7 @@ function countfamily(arr_k, k) //takes the array and it's index 2 count living n
                 famcount++;
             }
 
-            else if(j==k+columns+1) //seventh
+            else if(j==k+1+columns) //seventh
             {
                 famcount++;
             }
@@ -96,11 +107,12 @@ function countfamily(arr_k, k) //takes the array and it's index 2 count living n
 
 function LifeTurn(arr) //returns the next gen
 {
+columns=lastsize;
 let currentGen=arr;
-let nextGen=new Array(rows*columns).fill(0); //Setting a array of zeros
+let nextGen=new Array(columns*columns).fill(0); //Setting a array of zeros
 //console.log(nextGen);
 
-for(let l=0; l<currentGen.length; l++) //Checking every cell in the moodle order (i)
+for(let l=0; l<columns*columns; l++) //Checking every cell in the moodle order (i)
 {
     let neighbours=countfamily(currentGen, l); //Getting number of neighbours for this cell
     if(currentGen[l]==1) //Any live cell (1-3)...
@@ -144,7 +156,7 @@ initialSetUp[j]=1;
 }
 
 function resetLife(){
-    initialSetUp=new Array(rows*columns).fill(0);
+    initialSetUp=new Array(columns*columns).fill(0);
     displaylog(initialSetUp);
 
 }
@@ -239,12 +251,15 @@ function drawNext(size, texture){
 function reset(){
     container.innerHTML='';
     populate(size);
+    GenCount=0;
+    displaysteps(GenCount);
 }
 
 function nextset(err){
     container.innerHTML='';
     drawNext(size, LifeTurn(initialSetUp));
 }
+
 
 
 //------------------UI LOGIC-------------------------------------------------// 
@@ -264,6 +279,7 @@ window.addEventListener("mouseup", function(){
 resetBtn.addEventListener('click', function(){
     reset(); //FOR UI!
     resetLife(); //FOR GAME LOGIC!
+    lastsize=parseInt(sizeEl.value);
 })
 
 randomBtn.addEventListener('click', function(){
@@ -272,13 +288,16 @@ randomBtn.addEventListener('click', function(){
 
 stepBtn.addEventListener('click', function(){
 
+    lastsize=parseInt(sizeEl.value);
     let buffer=LifeTurn(initialSetUp);
     displaylog(initialSetUp);
     displaydatalog(buffer);
     nextset(); //FOR UI!
     initialSetUp=[];
-    initialSetUp=new Array(columns*rows).fill(0);
+    initialSetUp=new Array(size).fill(0);
     initialSetUp=buffer;
+    GenCount++;
+    displaysteps(GenCount);
 })
 
 
@@ -295,13 +314,14 @@ sizeEl.addEventListener('keyup', function(){
 })*/
 
 sizeEl.addEventListener('change', function(){
+    
     size=sizeEl.value;
-    rows=size;
-    columns=size;
-    reset();
-    resetLife();
+    lastsize=parseInt(sizeEl.value);
+    reset(); //FOR UI!
+    resetLife(); //FOR GAME LOGIC!
+    displaydatalog(size);
+
 })
 
 
 populate(size);
-
