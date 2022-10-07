@@ -1,11 +1,21 @@
+//-----------UI GLOBAL CONSTANS-----------
+
 const container=document.querySelector('.container');
 const sizeEl=document.querySelector('.size');
 let size = sizeEl.value;
 let draw = false;
 let clicked="";
+const randomBtn = document.querySelector('.btnRndm');
 const resetBtn = document.querySelector('.btn');
 const textLog = document.querySelector('.textlog');
 const dataLog = document.querySelector('.datalog');
+
+//------GameLogic GLOBAL CONSTANTS
+
+let initialSetUp=[];
+let rows=size;
+let columns=size;
+
 
 //Functions to display info
 function displaylog(info)
@@ -21,21 +31,14 @@ function displaydatalog(info)
 /*-----------------------GAME LOGIC-----------------*/
 /*-----------------------GAME LOGIC-----------------*/
 
-let initialSetUp=[];
-let rows=size;
-let columns=size;
 
 
 //Setting an initial array
 
-initialSetUp=[1, 1, 0, 0, 0,
-     0, 0, 1, 0, 0, 
-     0, 0, 1, 0, 0, 
-     0, 0, 1, 0, 0, 
-     0, 0, 0, 0,0];
+initialSetUp=new Array(25).fill(0);
 
 
-console.log(initialSetUp);
+
 
 function countfamily(arr_i, i) //takes the array and it's index 2 count living neigboorhood
 {
@@ -153,6 +156,12 @@ function resetLife(){
 
 
 //Populate is only used in the interface logic! remember not no mix with game logic
+
+function setState(cell){
+    initialSetUp[cell]=1;
+    displaylog(initialSetUp);
+}
+
 function populate(size){
     container.style.setProperty('--size', size)
     for (let i=0; i<size*size; i++) //Adding each pixel in acord of the size
@@ -163,26 +172,36 @@ function populate(size){
         div.addEventListener('mouseover', function(){
             if(!draw){return;}
             div.style.backgroundColor="rgb(255, 255, 255)";
-            displaydatalog(i);
+            displaydatalog(i); //i'm showing the pixel I clicked
+            setState(i);
 
         });
 
         div.addEventListener('mousedown', function(){
             div.style.backgroundColor="rgb(255, 255, 255)";
             displaydatalog(i);
+            setState(i);
         });
+        
+        /*
+        div.addEventListener('click', function(){
+            div.style.backgroundColor="rgb(255, 255, 255)";
+            displaydatalog(i);
+            setState(i);
+        })*/
 
 
         container.appendChild(div);
     }
 
-    displaylog(initialSetUp);
 }
 
 function reset(){
     container.innerHTML='';
     populate(size);
 }
+
+
 
 //------------------UI LOGIC-------------------------------------------------// 
  
@@ -203,8 +222,12 @@ resetBtn.addEventListener('click', function(){
     resetLife();
 })
 
+randomBtn.addEventListener('click', function(){
+    displaylog(initialSetUp);
+})
 
 
+/*
 sizeEl.addEventListener('keyup', function(){
     size=sizeEl.value;
     rows=size;
@@ -212,7 +235,7 @@ sizeEl.addEventListener('keyup', function(){
     reset();
     resetLife();
 
-})
+})*/
 
 sizeEl.addEventListener('change', function(){
     size=sizeEl.value;
