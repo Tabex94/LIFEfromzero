@@ -2,23 +2,29 @@
 
 const container=document.querySelector('.container');
 const sizeEl=document.querySelector('.size');
+const speedEl=document.querySelector('.speed');
 let size = sizeEl.value;
+let speed=speedEl.value;
 let draw = false;
 let clicked="";
 const randomBtn = document.querySelector('.btnRndm');
 const resetBtn = document.querySelector('.btn');
 const stepBtn = document.querySelector('.btnStp');
+const reloadBtn=document.querySelector('.btnReload')
+const startBtn=document.querySelector('.btnStart');
 const textLog = document.querySelector('.textlog');
 const dataLog = document.querySelector('.datalog');
 const stepcount = document.querySelector('steps');
 const sizecount = document.querySelector('sizes');
 let rows=parseInt(sizeEl.value);
 let columns=parseInt(sizeEl.value);
-let lastsize=5;
+let lastsize=10;
 let GenCount=0;
+let running=false;
 //------GameLogic GLOBAL CONSTANTS
-
 let initialSetUp=[];
+let myInterval=0;
+clearInterval(myInterval);
 
 initialSetUp=new Array(size*size).fill(0);
 console.log(initialSetUp);
@@ -153,8 +159,6 @@ return nextGen;
 }
 
 
-
-
 function singleUpdate(j){
 initialSetUp[j]=1;
 }
@@ -182,7 +186,6 @@ function resetLife(){
 
 function setState(cell){
     initialSetUp[cell]=1;
-    displaylog(initialSetUp);
 }
 //Setting Initial space
 function populate(size){
@@ -220,6 +223,7 @@ function populate(size){
 }
 
 
+
 //Drawing NextGEn
 function drawNext(size, texture){
     container.style.setProperty('--size', size)
@@ -251,7 +255,6 @@ function drawNext(size, texture){
     }
 }
 
-
 function reset(){
     container.innerHTML='';
     populate(size);
@@ -263,6 +266,20 @@ function reset(){
 function nextset(err){
     container.innerHTML='';
     drawNext(size, LifeTurn(initialSetUp));
+}
+
+function singleStep(){
+    lastsize=parseInt(sizeEl.value);
+    let buffer=LifeTurn(initialSetUp);
+    displaylog(initialSetUp);
+    displaydatalog(buffer);
+    nextset(); //FOR UI!
+    initialSetUp=[];
+    initialSetUp=new Array(size).fill(0);
+    initialSetUp=buffer;
+    GenCount++;
+    displaysteps(GenCount);
+    displaysize(size);
 }
 
 
@@ -292,18 +309,33 @@ randomBtn.addEventListener('click', function(){
 })
 
 stepBtn.addEventListener('click', function(){
+    singleStep();
+    
+})
 
-    lastsize=parseInt(sizeEl.value);
-    let buffer=LifeTurn(initialSetUp);
-    displaylog(initialSetUp);
-    displaydatalog(buffer);
-    nextset(); //FOR UI!
-    initialSetUp=[];
-    initialSetUp=new Array(size).fill(0);
-    initialSetUp=buffer;
-    GenCount++;
-    displaysteps(GenCount);
-    displaysize(size);
+reloadBtn.addEventListener('click',function(){
+    location.reload();
+})
+
+startBtn.addEventListener('click', function(){
+    if(running==false){
+        running=true;
+        
+        startBtn.textContent="Pause";
+        myInterval=setInterval(singleStep, 2000/speed);
+
+    }
+
+    else if(running==true){
+        running=false;
+        startBtn.textContent="Start";
+        clearInterval(myInterval);
+    }
+
+    
+
+        
+    
 })
 
 
@@ -341,6 +373,14 @@ sizeEl.addEventListener('mousedown', function(){
     resetLife();
     
 })
+
+speedEl.addEventListener('change', function(){
+    speed=speedEl.value;
+    if(running==true){
+        
+    }
+})
+
 
 
 populate(size);

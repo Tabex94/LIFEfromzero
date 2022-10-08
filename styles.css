@@ -40,16 +40,34 @@ body{
     padding: 0 1em;
 }
 
-.btnRndm, input{
+.btnRndm{
     height: 35px;
     padding: 0 1em;
 }
 
-.btnStp, input{
+.btnStp{
     height: 35px;
     padding: 0 1em;
 }
 
+.btnStart{
+    height: 35px;
+    padding: 0 1em;
+}
+
+.btnReload{
+    height: 35px;
+    padding: 0 1em;
+    background-color: rgb(237, 230, 15);
+    border-color: #008805;
+}
+
+.btnReload:hover{
+    height: 35px;
+    padding: 0 1em;
+    background-color: rgb(237, 15, 15);
+    border-color: #c6c90d;
+}
 
 
 
@@ -119,7 +137,7 @@ sizes{
 }
 
 input{
-    width: 280px;
+    width: 200px;
 }
 
 header{
