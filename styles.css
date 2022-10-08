@@ -9,18 +9,23 @@ html, body{
 }
 
 body{
-    background-color: rgb(19, 83, 11);
-    display: flex;
+    background-color: rgb(62, 94, 58);
+    display: inline;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    /*background-image: url(https://preshing.com/images/M.jpg);
+    background-size: contain;*/
 }
 
-.navbar, .container{
+.navbar
+{
     background-color: black;
-    width: 800px;
+    width: 900px;
     border-radius: 3px;
-}
+} 
+
+
 
 .navbar{
     padding: 1em;
@@ -49,6 +54,9 @@ body{
 
 
 .container{
+    background-color: black;
+    width: 800px;
+    border-radius: 3px;
     --size:4; /*a variable in css! to set rows and columns (or is a pointer?)*/
     height: 800px;
     display: grid;
@@ -115,6 +123,25 @@ input{
 }
 
 header{
-    padding-bottom: 40px;
+    padding-top: 1em;
+    padding-bottom: 2em;
     font-size: xx-large;
+}
+
+section{
+    width: 75%;
+    padding-bottom: 15PX;
+}
+
+h3{
+    padding-top: 2em;
+}
+
+ol{
+    padding-top: 1em;
+
+}
+
+li{
+    text-align: left;
 }
