@@ -322,7 +322,7 @@ startBtn.addEventListener('click', function(){
         running=true;
         
         startBtn.textContent="Pause";
-        myInterval=setInterval(singleStep, 2000/speed);
+        myInterval=setInterval(singleStep, 1000/speed);
 
     }
 
@@ -377,7 +377,8 @@ sizeEl.addEventListener('mousedown', function(){
 speedEl.addEventListener('change', function(){
     speed=speedEl.value;
     if(running==true){
-        
+        clearInterval(myInterval);
+        myInterval=setInterval(singleStep, 1000/speed);       
     }
 })
 
