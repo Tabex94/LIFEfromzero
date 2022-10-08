@@ -19,7 +19,6 @@ let GenCount=0;
 //------GameLogic GLOBAL CONSTANTS
 
 let initialSetUp=[];
-//let nextSetUp=[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0,  0, 0, 0, 0, 0]; //NEXT GEN IS INSIDE GAME LOGIC AS LOCAL VARIABLE, ERASE LATER
 
 initialSetUp=new Array(size*size).fill(0);
 console.log(initialSetUp);
