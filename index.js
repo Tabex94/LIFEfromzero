@@ -281,28 +281,95 @@ function singleStep(){
 
 function getRandom(){
     let arr=[];
-    const prob1=Math.floor(Math.random() * 3);
+    const prob1=Math.floor(Math.random() * 100);
     console.log(prob1);
 
-    if(prob1>0)
+    if(prob1<50) //0-50 50% Traditional Random
     {
-        for(let r=0; r<size*size; r++) //Traditional random
+        for(let r=0; r<size*size; r++) 
         {
             arr[r]=Math.floor(Math.random() * 2);
         }
     
     }
-    else
-    {
-        for(let r=0; r<size*size; r++) //All are ones
-        {
-            arr[r]=0;
-            if(r % 10 == 0){
-                arr[r]=1;
-            }
-        }
 
+    else //50% Random random!!!
+    {
+        if(prob1>95)  //Divisible by 10
+            {
+                for(let r=0; r<size*size; r++)
+                {
+                    arr[r]=0;
+                    if(r % 10 == 0){
+                        arr[r]=1;
+                    }
+                }
+
+            }
+
+        else if(prob1>90)  //Divisible by n
+            {
+                let rndmix=Math.floor(Math.random() * 9);
+                for(let r=0; r<size*size; r++)
+                {
+                    arr[r]=0;
+                    if((r % rndmix) == 0){
+                        arr[r]=1;
+                    }
+                }
+
+            }
+
+        else if(prob1>85)// 4 each 7
+            {
+                let rndmix=1;
+                let randomox=4;
+                for(let r=0; r<size*size; r++)
+                {
+                    arr[r]=1;
+
+                    if(r-(7*rndmix) > 1){
+                            arr[r]=0;
+                            if(r-(7*rndmix)>randomox)
+                            {
+                                rndmix++;
+                            }
+                    }
+                }
+
+            }
+
+            else if(prob1>80) //randomox each 7
+            {
+                let rndmix=1;
+                let randomox=Math.floor(Math.random() * 3);
+                for(let r=0; r<size*size; r++)
+                {
+                    arr[r]=1;
+                    if(r-(5*rndmix) > 1){
+                            arr[r]=0;
+                            if(r-(5*rndmix)>(randomox))
+                            {
+                                rndmix++;
+                            }
+                    }
+
+                    
+                }
+
+            }
+
+            else{
+                for(let r=0; r<size*size; r++)
+                {
+                    arr[r]=0;
+                    if(r % 11 == 0){
+                        arr[r]=1;
+                    }
+                }
+            }
     }
+    
 return arr;
 
 }
@@ -407,4 +474,3 @@ speedEl.addEventListener('change', function(){
 
 
 populate(size);
-
