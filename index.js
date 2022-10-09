@@ -18,7 +18,6 @@ const stepcount = document.querySelector('steps');
 const sizecount = document.querySelector('sizes');
 let rows=parseInt(sizeEl.value);
 let columns=parseInt(sizeEl.value);
-let lastsize=10;
 let GenCount=0;
 let running=false;
 //------GameLogic GLOBAL CONSTANTS
@@ -158,7 +157,6 @@ for(let l=0; l<columns*columns; l++) //Checking every cell in the moodle order (
 return nextGen;
 }
 
-
 function singleUpdate(j){
 initialSetUp[j]=1;
 }
@@ -271,7 +269,6 @@ function nextset(err){
 function singleStep(){
     lastsize=parseInt(sizeEl.value);
     let buffer=LifeTurn(initialSetUp);
-    displaylog(initialSetUp);
     displaydatalog(buffer);
     nextset(); //FOR UI!
     initialSetUp=[];
@@ -281,6 +278,35 @@ function singleStep(){
     displaysteps(GenCount);
     displaysize(size);
 }
+
+function getRandom(){
+    let arr=[];
+    const prob1=Math.floor(Math.random() * 3);
+    console.log(prob1);
+
+    if(prob1>0)
+    {
+        for(let r=0; r<size*size; r++) //Traditional random
+        {
+            arr[r]=Math.floor(Math.random() * 2);
+        }
+    
+    }
+    else
+    {
+        for(let r=0; r<size*size; r++) //All are ones
+        {
+            arr[r]=0;
+            if(r % 10 == 0){
+                arr[r]=1;
+            }
+        }
+
+    }
+return arr;
+
+}
+
 
 
 
@@ -299,13 +325,19 @@ window.addEventListener("mouseup", function(){
 
 //I have to reset both grid and logic buffer
 resetBtn.addEventListener('click', function(){
+    (clearInterval(myInterval));
     reset(); //FOR UI!
     resetLife(); //FOR GAME LOGIC!
     lastsize=parseInt(sizeEl.value);
 })
 
 randomBtn.addEventListener('click', function(){
-    displaylog(initialSetUp);
+    console.log(getRandom());
+    reset(); //FOR UI!
+    resetLife(); //FOR GAME LOGIC!
+    lastsize=parseInt(sizeEl.value);
+    container.innerHTML='';
+    drawNext(size, getRandom());
 })
 
 stepBtn.addEventListener('click', function(){
@@ -322,7 +354,8 @@ startBtn.addEventListener('click', function(){
         running=true;
         
         startBtn.textContent="Pause";
-        myInterval=setInterval(singleStep, 1000/speed);
+        myInterval=setInterval(singleStep, 6500/((5*speed)+((speed*speed)-(speed*2))));
+        
 
     }
 
@@ -330,6 +363,7 @@ startBtn.addEventListener('click', function(){
         running=false;
         startBtn.textContent="Start";
         clearInterval(myInterval);
+        
     }
 
     
@@ -339,18 +373,6 @@ startBtn.addEventListener('click', function(){
 })
 
 
-
-
-/*
-sizeEl.addEventListener('keyup', function(){
-    size=sizeEl.value;
-    lastsize=parseInt(sizeEl.value); 
-    columns=lastsize;
-    reset();
-    resetLife();
-    displaysize(size);
-
-})*/
 
 sizeEl.addEventListener('change', function(){
     
@@ -378,7 +400,7 @@ speedEl.addEventListener('change', function(){
     speed=speedEl.value;
     if(running==true){
         clearInterval(myInterval);
-        myInterval=setInterval(singleStep, 1000/speed);       
+        myInterval=setInterval(singleStep, 6500/((5*speed)+((speed*speed)-(speed*2))));       
     }
 })
 
