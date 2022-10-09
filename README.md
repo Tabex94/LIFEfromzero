@@ -1,5 +1,5 @@
-# secretLIFEfromzero
-My private project of game of life
+# LIFEfromzero
+My project of game of life
 
 First I'm going to count the neightboorhood of a single cell using this draft as support
 
@@ -23,5 +23,6 @@ To calc color, we need to desing our non-linear functions
 I used a graphic calculator tool
 So I can easly control and see diferent variations for rgb values
 
-![image](https://user-images.githubusercontent.com/113391047/194755275-557e73a6-40cd-489f-8e05-36bf6b579ed3.png)
+![image](https://user-images.githubusercontent.com/113391047/194755636-d2e87ce9-d7fb-41af-9c25-4e7750349409.png)
+
 
