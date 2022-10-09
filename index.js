@@ -26,8 +26,7 @@ let myInterval=0;
 clearInterval(myInterval);
 
 initialSetUp=new Array(size*size).fill(0);
-console.log(initialSetUp);
-console.log(size);
+
 
 //-----Functions to display info-----
 function displaylog(info)
@@ -281,10 +280,11 @@ function singleStep(){
 
 function getRandom(){
     let arr=[];
+    arr=new Array(size*size).fill(0);
     const prob1=Math.floor(Math.random() * 100);
     console.log(prob1);
 
-    if(prob1<50) //0-50 50% Traditional Random
+    if(prob1<75) //75% Traditional Random
     {
         for(let r=0; r<size*size; r++) 
         {
@@ -293,13 +293,12 @@ function getRandom(){
     
     }
 
-    else //50% Random random!!!
+    else //25% Random random!!!
     {
-        if(prob1>95)  //Divisible by 10
+        if(prob1>=95)  //Divisible by 10
             {
                 for(let r=0; r<size*size; r++)
                 {
-                    arr[r]=0;
                     if(r % 10 == 0){
                         arr[r]=1;
                     }
@@ -309,11 +308,13 @@ function getRandom(){
 
         else if(prob1>90)  //Divisible by n
             {
-                let rndmix=Math.floor(Math.random() * 9);
+                let rndmix=Math.floor(Math.random() * 6);
                 for(let r=0; r<size*size; r++)
                 {
-                    arr[r]=0;
-                    if((r % rndmix) == 0){
+                    if((rndmix>0) && (r % rndmix == 0)){
+                        arr[r]=1;
+                    }
+                    else if(r % 5 == 0){
                         arr[r]=1;
                     }
                 }
@@ -323,14 +324,13 @@ function getRandom(){
         else if(prob1>85)// 4 each 7
             {
                 let rndmix=1;
-                let randomox=4;
+                let randomox=5;
                 for(let r=0; r<size*size; r++)
                 {
                     arr[r]=1;
-
-                    if(r-(7*rndmix) > 1){
+                    if(r-(10*rndmix) > 1){
                             arr[r]=0;
-                            if(r-(7*rndmix)>randomox)
+                            if(r-(10*rndmix)>randomox)
                             {
                                 rndmix++;
                             }
@@ -342,13 +342,13 @@ function getRandom(){
             else if(prob1>80) //randomox each 7
             {
                 let rndmix=1;
-                let randomox=Math.floor(Math.random() * 3);
+                let randomox=Math.floor(Math.random() * 4);
                 for(let r=0; r<size*size; r++)
                 {
                     arr[r]=1;
-                    if(r-(5*rndmix) > 1){
+                    if(r-(7*rndmix) > 1){
                             arr[r]=0;
-                            if(r-(5*rndmix)>(randomox))
+                            if(r-(7*rndmix)>(randomox))
                             {
                                 rndmix++;
                             }
@@ -360,11 +360,14 @@ function getRandom(){
             }
 
             else{
+
                 for(let r=0; r<size*size; r++)
                 {
-                    arr[r]=0;
-                    if(r % 11 == 0){
+                    
+                    if(r % 20 == 0){
                         arr[r]=1;
+                        arr[r+1]=1;
+                        arr[r+2]=1;
                     }
                 }
             }
@@ -474,3 +477,4 @@ speedEl.addEventListener('change', function(){
 
 
 populate(size);
+
