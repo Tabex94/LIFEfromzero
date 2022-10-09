@@ -15,3 +15,13 @@ In spanish for sharing purposes
 
 
 ![LOGICCHECK](https://user-images.githubusercontent.com/113391047/194477110-aeb8b1e3-77ae-4094-be30-b4bb32cbbc58.png)
+
+To calc color, we need to desing our non-linear functions
+
+![color settings](https://user-images.githubusercontent.com/113391047/194753863-ff457a42-a4e7-4cdb-968f-41c543dbad8a.png)
+
+I used a graphic calculator tool
+So I can easly control and see diferent variations for rgb values
+
+![image](https://user-images.githubusercontent.com/113391047/194755275-557e73a6-40cd-489f-8e05-36bf6b579ed3.png)
+
