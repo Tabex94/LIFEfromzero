@@ -9,7 +9,7 @@ html, body{
 }
 
 body{
-    background-color: rgb(62, 94, 58);
+    background-color: #D6E6F2;
     display: inline;
     justify-content: center;
     align-items: center;
@@ -124,7 +124,7 @@ steps{
 }
 
 .sizecount{
-    background-color: rgb(205, 255, 218);
+    background-color: #7DCE94;
     color: rgb(18, 18, 19);
     height: 33px;
     width: 70px;
