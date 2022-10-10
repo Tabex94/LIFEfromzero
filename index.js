@@ -8,7 +8,6 @@ const resetBtn = document.querySelector('.btn');
 const stepBtn = document.querySelector('.btnStp');
 const reloadBtn=document.querySelector('.btnReload')
 const startBtn=document.querySelector('.btnStart');
-const textLog = document.querySelector('.textlog');
 const dataLog = document.querySelector('.datalog');
 const stepcount = document.querySelector('steps');
 const sizecount = document.querySelector('sizes');
@@ -18,23 +17,16 @@ let size = sizeEl.value;
 let speed=speedEl.value;
 let draw = false;
 let clicked="";
-let rows=parseInt(sizeEl.value);
-let columns=parseInt(sizeEl.value);
 let GenCount=0;
 let running=false;
+let myInterval=0;
 //------GameLogic GLOBAL CONSTANTS
 let initialSetUp=[];
-let myInterval=0;
-clearInterval(myInterval);
-
 initialSetUp=new Array(size*size).fill(0);
+let columns=parseInt(sizeEl.value);
 
 
 //-----Functions to display info-----
-function displaylog(info)
-{
-    textLog.textContent=info;
-}
 
 function displaydatalog(info)
 {
@@ -63,9 +55,11 @@ function displayState()
 {
     if(running==true){
         statecount.style.backgroundColor="#146C78";
+        startBtn.textContent="Pause";
     }
     else{
         statecount.style.backgroundColor="#EFEDE7";
+        startBtn.textContent="Start";
     }
     
 }
@@ -183,12 +177,10 @@ initialSetUp[j]=1;
 
 function resetLife(){
     initialSetUp=new Array(columns*columns).fill(0);
-    displaylog(initialSetUp);
 }
 
 
 /*---------------------GAME LOGIC-----------------*/
-
 
 
 //-----------------------UI LOGIC-------------------------------------------------// 
@@ -211,14 +203,12 @@ function populate(size){
         div.addEventListener('mouseover', function(){
             if(!draw){return;}
             div.style.backgroundColor="rgb(255, 255, 255)";
-            displaydatalog(i); //i'm showing the pixel I clicked
             setState(i);
 
         });
 
         div.addEventListener('mousedown', function(){
             div.style.backgroundColor="rgb(255, 255, 255)";
-            displaydatalog(i);
             setState(i);
         });
         
@@ -235,10 +225,8 @@ function populate(size){
 
 }
 
-
-
 //Drawing NextGEn
-function drawNext(size, texture){
+function drawNext(texture){
     container.style.setProperty('--size', size)
     for (let i=0; i<size*size; i++) //Adding each pixel in acord of the size
     {
@@ -253,14 +241,12 @@ function drawNext(size, texture){
         div.addEventListener('mouseover', function(){
             if(!draw){return;}
             div.style.backgroundColor="rgb(255, 255, 255)";
-            displaydatalog(i); //i'm showing the pixel I clicked
             setState(i);
 
         });
 
         div.addEventListener('mousedown', function(){
             div.style.backgroundColor="rgb(255, 255, 255)";
-            displaydatalog(i);
             setState(i);
         });
         
@@ -279,13 +265,12 @@ function reset(){
 
 function nextset(err){
     container.innerHTML='';
-    drawNext(size, LifeTurn(initialSetUp));
+    drawNext(LifeTurn(initialSetUp));
 }
 
 function singleStep(){
     lastsize=parseInt(sizeEl.value);
     let buffer=LifeTurn(initialSetUp);
-    displaydatalog(buffer);
     nextset(); //FOR UI!
     initialSetUp=[];
     initialSetUp=new Array(size).fill(0);
@@ -305,7 +290,6 @@ function getRandom(){
     let arr=[];
     arr=new Array(size*size).fill(0);
     const prob1=Math.floor(Math.random() * 100);
-    console.log(prob1);
 
     if(prob1<75) //75% Traditional Random
     {
@@ -397,11 +381,10 @@ return arr;
 
 }
 
-
-
-
 //------------------UI LOGIC-------------------------------------------------// 
- 
+
+
+//---EVENTS!---
 
 window.addEventListener("mousedown", function(){
     draw=true;
@@ -413,7 +396,6 @@ window.addEventListener("mouseup", function(){
 
 });
 
-//I have to reset both grid and logic buffer
 resetBtn.addEventListener('click', function(){
     (clearInterval(myInterval));
     running=false;
@@ -429,7 +411,7 @@ randomBtn.addEventListener('click', function(){
     resetLife(); //FOR GAME LOGIC!
     lastsize=parseInt(sizeEl.value);
     container.innerHTML='';
-    drawNext(size, getRandom());
+    drawNext(getRandom());
     displayState();
 })
 
@@ -464,8 +446,6 @@ startBtn.addEventListener('click', function(){
     
 })
 
-
-
 sizeEl.addEventListener('change', function(){
     clearInterval(myInterval);
     running=false;    
@@ -475,10 +455,10 @@ sizeEl.addEventListener('change', function(){
     columns=lastsize;
     reset();
     resetLife();;
+    displayState();
        
 
 })
-
 
 speedEl.addEventListener('change', function(){
     speed=speedEl.value;
@@ -492,5 +472,6 @@ speedEl.addEventListener('change', function(){
 
 
 populate(size);
+clearInterval(myInterval);
 displaySpeed();
 
