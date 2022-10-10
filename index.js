@@ -3,10 +3,6 @@
 const container=document.querySelector('.container');
 const sizeEl=document.querySelector('.size');
 const speedEl=document.querySelector('.speed');
-let size = sizeEl.value;
-let speed=speedEl.value;
-let draw = false;
-let clicked="";
 const randomBtn = document.querySelector('.btnRndm');
 const resetBtn = document.querySelector('.btn');
 const stepBtn = document.querySelector('.btnStp');
@@ -16,6 +12,12 @@ const textLog = document.querySelector('.textlog');
 const dataLog = document.querySelector('.datalog');
 const stepcount = document.querySelector('steps');
 const sizecount = document.querySelector('sizes');
+const speedcsount = document.querySelector('.stepcount');
+const statecount = document.querySelector('.sizecount');
+let size = sizeEl.value;
+let speed=speedEl.value;
+let draw = false;
+let clicked="";
 let rows=parseInt(sizeEl.value);
 let columns=parseInt(sizeEl.value);
 let GenCount=0;
@@ -26,8 +28,7 @@ let myInterval=0;
 clearInterval(myInterval);
 
 initialSetUp=new Array(size*size).fill(0);
-console.log(initialSetUp);
-console.log(size);
+
 
 //-----Functions to display info-----
 function displaylog(info)
@@ -48,6 +49,25 @@ function displaysteps(info)
 function displaysize(info)
 {
     sizecount.textContent=info;
+}
+
+function displaySpeed()
+{
+    let red=((speed*9/2)*speed);
+    let green=256-(speed*speed);
+    let blue=speed*2;
+    speedcsount.style.backgroundColor="rgb("+red+","+green+","+blue+")";
+}
+
+function displayState()
+{
+    if(running==true){
+        statecount.style.backgroundColor="#146C78";
+    }
+    else{
+        statecount.style.backgroundColor="#EFEDE7";
+    }
+    
 }
 /*-----------------------GAME LOGIC-----------------*/
 /*-----------------------GAME LOGIC-----------------*/
@@ -164,15 +184,10 @@ initialSetUp[j]=1;
 function resetLife(){
     initialSetUp=new Array(columns*columns).fill(0);
     displaylog(initialSetUp);
-
 }
 
 
 /*---------------------GAME LOGIC-----------------*/
-
-
-
-
 
 
 
@@ -259,6 +274,7 @@ function reset(){
     GenCount=0;
     displaysteps(GenCount);
     displaysize(size);
+    displayState();
 }
 
 function nextset(err){
@@ -279,30 +295,104 @@ function singleStep(){
     displaysize(size);
 }
 
+function notStep()
+{
+    singleStep()
+    running=true;
+}
+
 function getRandom(){
     let arr=[];
-    const prob1=Math.floor(Math.random() * 3);
+    arr=new Array(size*size).fill(0);
+    const prob1=Math.floor(Math.random() * 100);
     console.log(prob1);
 
-    if(prob1>0)
+    if(prob1<75) //75% Traditional Random
     {
-        for(let r=0; r<size*size; r++) //Traditional random
+        for(let r=0; r<size*size; r++) 
         {
             arr[r]=Math.floor(Math.random() * 2);
         }
     
     }
-    else
-    {
-        for(let r=0; r<size*size; r++) //All are ones
-        {
-            arr[r]=0;
-            if(r % 10 == 0){
-                arr[r]=1;
-            }
-        }
 
+    else //25% Random random!!!
+    {
+        if(prob1>=95)  //Divisible by 10
+            {
+                for(let r=0; r<size*size; r++)
+                {
+                    if(r % 10 == 0){
+                        arr[r]=1;
+                    }
+                }
+
+            }
+
+        else if(prob1>90)  //Divisible by n
+            {
+                let rndmix=Math.floor(Math.random() * 5);
+                for(let r=0; r<size*size; r++)
+                {
+                    if(r % (rndmix+1) == 0){
+                        arr[r]=1;
+                    }
+                }
+
+            }
+
+        else if(prob1>85)// 4 each 7
+            {
+                let rndmix=1;
+                let randomox=5;
+                for(let r=0; r<size*size; r++)
+                {
+                    arr[r]=1;
+                    if(r-(10*rndmix) > 1){
+                            arr[r]=0;
+                            if(r-(10*rndmix)>randomox)
+                            {
+                                rndmix++;
+                            }
+                    }
+                }
+
+            }
+
+            else if(prob1>80) //randomox each 7
+            {
+                let rndmix=1;
+                let randomox=Math.floor(Math.random() * 4);
+                for(let r=0; r<size*size; r++)
+                {
+                    arr[r]=1;
+                    if(r-(7*rndmix) > 1){
+                            arr[r]=0;
+                            if(r-(7*rndmix)>(randomox))
+                            {
+                                rndmix++;
+                            }
+                    }
+
+                    
+                }
+
+            }
+
+            else{
+
+                for(let r=0; r<size*size; r++)
+                {
+                    
+                    if(r % 20 == 0){
+                        arr[r]=1;
+                        arr[r+1]=1;
+                        arr[r+2]=1;
+                    }
+                }
+            }
     }
+    
 return arr;
 
 }
@@ -326,18 +416,21 @@ window.addEventListener("mouseup", function(){
 //I have to reset both grid and logic buffer
 resetBtn.addEventListener('click', function(){
     (clearInterval(myInterval));
+    running=false;
     reset(); //FOR UI!
     resetLife(); //FOR GAME LOGIC!
+    startBtn.textContent='Start';
     lastsize=parseInt(sizeEl.value);
+    displayState();
 })
 
 randomBtn.addEventListener('click', function(){
-    console.log(getRandom());
     reset(); //FOR UI!
     resetLife(); //FOR GAME LOGIC!
     lastsize=parseInt(sizeEl.value);
     container.innerHTML='';
     drawNext(size, getRandom());
+    displayState();
 })
 
 stepBtn.addEventListener('click', function(){
@@ -354,7 +447,7 @@ startBtn.addEventListener('click', function(){
         running=true;
         
         startBtn.textContent="Pause";
-        myInterval=setInterval(singleStep, 6500/((5*speed)+((speed*speed)-(speed*2))));
+        myInterval=setInterval(notStep, 6500/((5*speed)+((speed*speed)-(speed*2))));
         
 
     }
@@ -366,16 +459,16 @@ startBtn.addEventListener('click', function(){
         
     }
 
-    
+    displayState();
 
-        
     
 })
 
 
 
 sizeEl.addEventListener('change', function(){
-    
+    clearInterval(myInterval);
+    running=false;    
     size=sizeEl.value;
     displaysize(size);
     lastsize=parseInt(sizeEl.value); 
@@ -386,25 +479,18 @@ sizeEl.addEventListener('change', function(){
 
 })
 
-sizeEl.addEventListener('mousedown', function(){
-    size=sizeEl.value;
-    displaysize(size);
-    lastsize=parseInt(sizeEl.value); 
-    columns=lastsize;
-    reset();
-    resetLife();
-    
-})
 
 speedEl.addEventListener('change', function(){
     speed=speedEl.value;
     if(running==true){
         clearInterval(myInterval);
-        myInterval=setInterval(singleStep, 6500/((5*speed)+((speed*speed)-(speed*2))));       
+        myInterval=setInterval(notStep, 6500/((5*speed)+((speed*speed)-(speed*2))));       
     }
+    displaySpeed();
 })
 
 
 
 populate(size);
+displaySpeed();
 
