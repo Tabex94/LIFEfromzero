@@ -14,14 +14,12 @@ body{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /*background-image: url(https://preshing.com/images/M.jpg);
-    background-size: contain;*/
 }
 
 .navbar
 {
     background-color: black;
-    width: 900px;
+    width: 860px;
     border-radius: 3px;
 } 
 
@@ -29,7 +27,7 @@ body{
 
 .navbar{
     padding: 1em;
-    margin-bottom: 1em;
+    margin-bottom: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -89,27 +87,6 @@ body{
     border-radius: 2px;
 }
 
-.textlog {
-    background-color: #ffffff;
-    border-radius: 5%;
-    text-align: center;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    text-shadow: #232321;
-    font-size: large;
-}
-
-.datalog {
-    background-color: #008805;
-    border-radius: 5%;
-    text-align: center;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    text-shadow: #232321;
-    font-size: large;
-    color: black;
-}
-
 .stepcount{
     background-color: rgb(205, 255, 218);
     color: rgb(18, 18, 19);
@@ -151,13 +128,23 @@ section{
     padding-bottom: 15PX;
 }
 
+footer{
+    width: 75%;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    }
+
 h3{
     padding-top: 2em;
 }
 
-ol{
+ol, ul{
     padding-top: 1em;
 
+}
+
+ul{
+    padding-bottom: 10px;
 }
 
 li{
